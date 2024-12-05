@@ -32,4 +32,55 @@ public class EmpleadoRepository implements EmpleadoDTORepository {
         return empleadoCRUDRepository.findById(codigo).map(empleado -> empleadoMapper.toEmpleadoDTO(empleado));
     }
 
+    @Override
+    public EmpleadoDTO saveEmpleado(EmpleadosEntity empleado) {
+        return empleadoMapper.toEmpleadoDTO(empleadoCRUDRepository.save(empleado));
+    }
+
+    @Override
+    public void deleteEmpleado(Integer codigo) {
+        empleadoCRUDRepository.deleteById(codigo);
+    }
+
+    @Override
+    public EmpleadoDTO updateEmpleado(EmpleadosEntity empleado) {
+        Optional<EmpleadosEntity> existeEmpleado = empleadoCRUDRepository.findById(empleado.getCodigo());
+
+        EmpleadosEntity existente = existeEmpleado.get();
+        if (empleado.getUsuario() == null) {
+            empleado.setUsuario(existente.getUsuario());
+        }
+
+        if (empleado.getNombre() == null) {
+            empleado.setNombre(existente.getNombre());
+        }
+
+        if (empleado.getTelefono() == null) {
+            empleado.setTelefono(existente.getTelefono());
+        }
+
+        if (empleado.getCorreo() == null) {
+            empleado.setCorreo(existente.getCorreo());
+        }
+
+        if (empleado.getDireccion() == null) {
+            empleado.setDireccion(existente.getDireccion());
+        }
+
+        if (empleado.getCargo() == null) {
+            empleado.setCargo(existente.getCargo());
+        }
+
+        if (empleado.getClave() == null) {
+            empleado.setClave(existente.getClave());
+        }
+
+        return empleadoMapper.toEmpleadoDTO(empleadoCRUDRepository.save(empleado));
+    }
+
+    @Override
+    public List<EmpleadoDTO> getEmpleadoByCargo(String cargo) {
+        List<EmpleadosEntity> empleados = (List<EmpleadosEntity>) empleadoCRUDRepository.findAllByCargo(cargo);
+        return empleadoMapper.toEmpleadosDTO(empleados);
+    }
 }

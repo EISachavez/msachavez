@@ -2,8 +2,10 @@ package com.delph.msachavez.persistence.entity;
 
 import java.util.Date;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,9 +14,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Past;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -29,42 +28,37 @@ public class EmpleadosEntity {
     @Column(name = "emp_codigo")
     private Integer codigo;
 
-    @Min(5)
-    @Max(20)
+    @Length(min = 5, max = 20)
     @Column(name = "emp_usuario", unique = true, nullable = false)
     private String usuario;
 
-    @NotEmpty
-    @Column(name = "emp_nombre")
+    @Column(name = "emp_nombre", nullable = false)
     private String nombre;
 
-    @Column(name = "emp_telefono")
+    @Column(name = "emp_telefono", nullable = false)
     private String telefono;
 
     @Email
-    @NotEmpty
-    @Column(name = "emp_correo")
+    @Column(name = "emp_correo", nullable = false)
     private String correo;
 
-    @NotEmpty
-    @Column(name = "emp_direccion")
+    @Column(name = "emp_direccion", nullable = false)
     private String direccion;
 
-    @NotEmpty
-    @Column(name = "emp_cargo")
+    @Column(name = "emp_cargo", nullable = false)
     private String cargo;
 
-    @NotEmpty
-    @Column(name = "emp_clave")
+    @Column(name = "emp_clave", nullable = false)
     private String clave;
 
     @CreatedDate
-    @Column(name = "emp_create_at")
+    @CreationTimestamp
+    @Column(name = "emp_create_at", nullable = false, updatable = false, insertable = true)
     private Date fechaCreacion;
 
     @Past
-    @LastModifiedDate
-    @Column(name = "emp_update_at")
+    @UpdateTimestamp
+    @Column(name = "emp_update_at", nullable = false, updatable = true, insertable = true)
     private Date fechaModificacion;
 
     public Integer getCodigo() {
