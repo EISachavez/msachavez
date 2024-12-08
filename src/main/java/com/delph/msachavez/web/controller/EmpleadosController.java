@@ -18,6 +18,8 @@ import com.delph.msachavez.domain.dto.EmpleadoDTO;
 import com.delph.msachavez.domain.service.EmpleadoService;
 import com.delph.msachavez.persistence.entity.EmpleadosEntity;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1/empleado")
 public class EmpleadosController {
@@ -27,6 +29,7 @@ public class EmpleadosController {
 
     @GetMapping("/")
     public ResponseEntity<List<EmpleadoDTO>> getAllEmpleados() {
+        System.out.println("llega a get");
         return new ResponseEntity<>(empleadoService.getAll(), HttpStatus.OK);
     }
 
@@ -36,9 +39,9 @@ public class EmpleadosController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<EmpleadoDTO> createEmpleado(@RequestBody EmpleadosEntity empleado) {
+    public ResponseEntity<EmpleadoDTO> createEmpleado(@Valid @RequestBody EmpleadosEntity empleado) {
         EmpleadoDTO empCreado = empleadoService.saveEmpleado(empleado);
-        return new ResponseEntity<>(empCreado, HttpStatus.OK);
+        return new ResponseEntity<>(empCreado, HttpStatus.CREATED);
     }
 
     @DeleteMapping("{codigo}")

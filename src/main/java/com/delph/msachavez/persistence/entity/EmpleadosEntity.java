@@ -14,7 +14,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -28,26 +30,35 @@ public class EmpleadosEntity {
     @Column(name = "emp_codigo")
     private Integer codigo;
 
-    @Length(min = 5, max = 20)
+    @Length(min = 5, max = 20, message = "La longitud del nombre de usuario debe estar entre 5 y 20")
+    @Pattern(regexp = "^[a-zA-Z.\\s-]+$", message = "El nombre de usuario del empleado contiene caracteres invalidos.")
+    @NotNull(message = "El valor de nombre de usuario del empleado es obligatorio.")
     @Column(name = "emp_usuario", unique = true, nullable = false)
     private String usuario;
 
+    @NotNull(message = "El nombre del empleado es obligatorio.")
+    @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ.\\s'-]+$", message = "El nombre del empleado contiene caracteres invalidos.")
     @Column(name = "emp_nombre", nullable = false)
     private String nombre;
 
+    @NotNull(message = "El teléfono del empleado es obligatorio.")
     @Column(name = "emp_telefono", nullable = false)
     private String telefono;
 
     @Email
+    @NotNull(message = "El correo electrónico del empleado es obligatorio.")
     @Column(name = "emp_correo", nullable = false)
     private String correo;
 
+    @NotNull(message = "La dirección de recidencia del empleado es obligatoria.")
     @Column(name = "emp_direccion", nullable = false)
     private String direccion;
 
+    @NotNull(message = "El cargo del empleado es obligatorio.")
     @Column(name = "emp_cargo", nullable = false)
     private String cargo;
 
+    @NotNull(message = "La clave del empleado es obligatoria.")
     @Column(name = "emp_clave", nullable = false)
     private String clave;
 
