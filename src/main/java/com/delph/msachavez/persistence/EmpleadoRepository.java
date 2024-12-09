@@ -107,6 +107,10 @@ public class EmpleadoRepository implements EmpleadoDTORepository {
             empleado.setClave(existente.getClave());
         }
 
+        if (empleado.getFechaCreacion() == null) {
+            empleado.setFechaCreacion(existente.getFechaCreacion());
+        }
+
         try {
             EmpleadosEntity entity = empleadoCRUDRepository.save(empleado);
             return empleadoMapper.toEmpleadoDTO(entity);
